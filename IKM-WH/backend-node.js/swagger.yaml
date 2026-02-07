@@ -1,0 +1,3121 @@
+openapi: 3.0.3
+info:
+  title: Festival Management System API
+  description: |
+    Полнофункциональный API для системы управления музыкальными фестивалями.
+    
+    ## Возможности
+    - Управление заявками на участие в фестивале
+    - Администрирование групп, мероприятий и фестивалей
+    - Управление мерчендайзом и коллекционными карточками
+    - Система карточек участников с загрузкой изображений
+    - Управление афишами и постерами
+    - Контент-менеджмент для сайта
+    - Статистика и аналитика
+    
+    ## Аутентификация
+    API использует JWT токены для аутентификации администраторов.
+    Публичные эндпоинты доступны без аутентификации.
+    
+  version: 2.0.0
+  contact:
+    name: Festival Management System
+    email: support@festival-system.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3001/api
+    description: Development server
+  - url: https://api.festival-system.com/api
+    description: Production server
+
+tags:
+  - name: Authentication
+    description: Аутентификация и авторизация администраторов
+  - name: Applications
+    description: Заявки на участие в фестивале
+  - name: Groups
+    description: Музыкальные группы и исполнители
+  - name: Events
+    description: Мероприятия и события фестиваля
+  - name: Festivals
+    description: Управление фестивалями
+  - name: Merchandise
+    description: Мерчендайз и товары фестиваля
+  - name: Cards
+    description: Коллекционные наборы карточек
+  - name: Participant Cards
+    description: Карточки участников фестиваля
+  - name: Posters
+    description: Афиши и постеры
+  - name: Content
+    description: Контент-менеджмент сайта
+  - name: Statistics
+    description: Статистика и аналитика
+  - name: Utility
+    description: Вспомогательные эндпоинты
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT токен для аутентификации администраторов
+
+  schemas:
+    # Common schemas
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус выполнения запроса
+        message:
+          type: string
+          description: Сообщение о результате операции
+        data:
+          description: Данные ответа
+        error:
+          type: string
+          description: Описание ошибки (если есть)
+
+    PaginationMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Текущая страница
+        limit:
+          type: integer
+          description: Количество элементов на странице
+        total:
+          type: integer
+          description: Общее количество элементов
+        totalPages:
+          type: integer
+          description: Общее количество страниц
+
+    SocialLinks:
+      type: object
+      properties:
+        website:
+          type: string
+          format: uri
+          description: Официальный сайт
+        instagram:
+          type: string
+          description: Instagram профиль
+        facebook:
+          type: string
+          description: Facebook страница
+        youtube:
+          type: string
+          description: YouTube канал
+
+    # User and Auth schemas
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор пользователя
+        name:
+          type: string
+          description: Имя пользователя
+        email:
+          type: string
+          format: email
+          description: Email адрес
+        role:
+          type: string
+          enum: [admin]
+          description: Роль пользователя
+        createdAt:
+          type: string
+          format: date-time
+          description: Дата создания аккаунта
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email администратора
+        password:
+          type: string
+          minLength: 6
+          description: Пароль
+
+    RegisterRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          minLength: 2
+          description: Имя администратора
+        email:
+          type: string
+          format: email
+          description: Email администратора
+        password:
+          type: string
+          minLength: 6
+          description: Пароль
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            token:
+              type: string
+              description: JWT токен
+            user:
+              $ref: '#/components/schemas/User'
+
+    # Festival Application schemas
+    FestivalApplication:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор заявки
+        groupName:
+          type: string
+          description: Название группы или исполнителя
+        artistName:
+          type: string
+          description: Имя артиста (для сольных исполнителей)
+        bandName:
+          type: string
+          description: Название группы
+        contactTelegram:
+          type: string
+          description: Telegram контакт
+        contactPhone:
+          type: string
+          description: Номер телефона
+        description:
+          type: string
+          description: Описание группы/исполнителя
+        socialLinks:
+          $ref: '#/components/schemas/SocialLinks'
+        genre:
+          type: string
+          description: Музыкальный жанр
+        members:
+          type: array
+          items:
+            type: string
+          description: Участники группы
+        status:
+          type: string
+          enum: [pending, approved, rejected]
+          description: Статус заявки
+        submittedAt:
+          type: string
+          format: date-time
+          description: Дата подачи заявки
+        reviewedAt:
+          type: string
+          format: date-time
+          description: Дата рассмотрения заявки
+        reviewedBy:
+          type: string
+          description: Кто рассмотрел заявку
+        notes:
+          type: string
+          description: Заметки администратора
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateApplicationRequest:
+      type: object
+      required:
+        - groupName
+        - contactTelegram
+        - contactPhone
+      properties:
+        groupName:
+          type: string
+          minLength: 2
+          description: Название группы или исполнителя
+        artistName:
+          type: string
+          description: Имя артиста
+        bandName:
+          type: string
+          description: Название группы
+        contactTelegram:
+          type: string
+          description: Telegram контакт
+        contactPhone:
+          type: string
+          description: Номер телефона
+        description:
+          type: string
+          description: Описание группы/исполнителя
+        socialLinks:
+          $ref: '#/components/schemas/SocialLinks'
+        genre:
+          type: string
+          description: Музыкальный жанр
+        members:
+          type: array
+          items:
+            type: string
+          description: Участники группы
+
+    UpdateApplicationStatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [pending, approved, rejected]
+          description: Новый статус заявки
+        notes:
+          type: string
+          description: Заметки администратора
+
+    # Group schemas
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор группы
+        name:
+          type: string
+          description: Название группы
+        genre:
+          type: string
+          description: Музыкальный жанр
+        description:
+          type: string
+          description: Описание группы
+        members:
+          type: array
+          items:
+            type: string
+          description: Участники группы
+        image:
+          type: string
+          description: URL изображения группы
+        vkLink:
+          type: string
+          description: Ссылка на VK
+        tgLink:
+          type: string
+          description: Ссылка на Telegram
+        socialLinks:
+          $ref: '#/components/schemas/SocialLinks'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateGroupRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 2
+          description: Название группы
+        genre:
+          type: string
+          description: Музыкальный жанр
+        description:
+          type: string
+          description: Описание группы
+        members:
+          type: array
+          items:
+            type: string
+          description: Участники группы
+        vkLink:
+          type: string
+          description: Ссылка на VK
+        tgLink:
+          type: string
+          description: Ссылка на Telegram
+        socialLinks:
+          $ref: '#/components/schemas/SocialLinks'
+
+    # Event schemas
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор события
+        title:
+          type: string
+          description: Название события
+        description:
+          type: string
+          description: Описание события
+        date:
+          type: string
+          format: date
+          description: Дата проведения
+        time:
+          type: string
+          description: Время проведения
+        venue:
+          type: string
+          description: Место проведения
+        address:
+          type: string
+          description: Адрес проведения
+        performers:
+          type: array
+          items:
+            type: string
+          description: Исполнители
+        image:
+          type: string
+          description: URL изображения события
+        status:
+          type: string
+          enum: [upcoming, ongoing, completed, cancelled]
+          description: Статус события
+        groupId:
+          type: string
+          description: ID связанной группы
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateEventRequest:
+      type: object
+      required:
+        - title
+        - date
+        - time
+        - venue
+        - address
+      properties:
+        title:
+          type: string
+          minLength: 2
+          description: Название события
+        description:
+          type: string
+          description: Описание события
+        date:
+          type: string
+          format: date
+          description: Дата проведения
+        time:
+          type: string
+          description: Время проведения
+        venue:
+          type: string
+          description: Место проведения
+        address:
+          type: string
+          description: Адрес проведения
+        performers:
+          type: array
+          items:
+            type: string
+          description: Исполнители
+        groupId:
+          type: string
+          description: ID связанной группы
+
+    # Festival schemas
+    Festival:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор фестиваля
+        name:
+          type: string
+          description: Название фестиваля
+        date:
+          type: string
+          format: date
+          description: Дата проведения
+        venue:
+          type: string
+          description: Место проведения
+        description:
+          type: string
+          description: Описание фестиваля
+        image:
+          type: string
+          description: URL изображения фестиваля
+        time:
+          type: string
+          description: Время проведения
+        address:
+          type: string
+          description: Адрес проведения
+        performers:
+          type: array
+          items:
+            type: string
+          description: Исполнители
+        status:
+          type: string
+          enum: [upcoming, ongoing, completed, cancelled]
+          description: Статус фестиваля
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateFestivalRequest:
+      type: object
+      required:
+        - name
+        - date
+        - venue
+      properties:
+        name:
+          type: string
+          minLength: 2
+          description: Название фестиваля
+        date:
+          type: string
+          format: date
+          description: Дата проведения
+        venue:
+          type: string
+          description: Место проведения
+        description:
+          type: string
+          description: Описание фестиваля
+        time:
+          type: string
+          description: Время проведения
+        address:
+          type: string
+          description: Адрес проведения
+        performers:
+          type: array
+          items:
+            type: string
+          description: Исполнители
+
+    # Merchandise schemas
+    MerchItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор товара
+        title:
+          type: string
+          description: Название товара
+        description:
+          type: string
+          description: Описание товара
+        price:
+          type: number
+          minimum: 0
+          description: Цена товара
+        image:
+          type: string
+          description: URL изображения товара
+        stock:
+          type: integer
+          minimum: 0
+          description: Количество на складе
+        category:
+          type: string
+          description: Категория товара
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateMerchItemRequest:
+      type: object
+      required:
+        - title
+        - price
+      properties:
+        title:
+          type: string
+          minLength: 2
+          description: Название товара
+        description:
+          type: string
+          description: Описание товара
+        price:
+          type: number
+          minimum: 0
+          description: Цена товара
+        stock:
+          type: integer
+          minimum: 0
+          default: 0
+          description: Количество на складе
+        category:
+          type: string
+          description: Категория товара
+
+    UpdateStockRequest:
+      type: object
+      required:
+        - stock
+      properties:
+        stock:
+          type: integer
+          minimum: 0
+          description: Новое количество на складе
+
+    # Card Set schemas
+    Card:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Название карточки
+        image:
+          type: string
+          description: URL изображения карточки
+        description:
+          type: string
+          description: Описание карточки
+
+    CardSet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор набора
+        title:
+          type: string
+          description: Название набора карточек
+        festivalId:
+          type: string
+          description: ID фестиваля
+        cardsInSet:
+          type: integer
+          minimum: 1
+          description: Количество карточек в наборе
+        setsAvailable:
+          type: integer
+          minimum: 0
+          description: Доступное количество наборов
+        price:
+          type: number
+          minimum: 0
+          description: Цена набора
+        image:
+          type: string
+          description: URL изображения набора
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+          description: Карточки в наборе
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateCardSetRequest:
+      type: object
+      required:
+        - title
+        - festivalId
+        - price
+      properties:
+        title:
+          type: string
+          minLength: 2
+          description: Название набора карточек
+        festivalId:
+          type: string
+          description: ID фестиваля
+        cardsInSet:
+          type: integer
+          minimum: 1
+          default: 1
+          description: Количество карточек в наборе
+        setsAvailable:
+          type: integer
+          minimum: 0
+          default: 0
+          description: Доступное количество наборов
+        price:
+          type: number
+          minimum: 0
+          description: Цена набора
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+          description: Карточки в наборе
+
+    # Participant Card schemas
+    ParticipantCardFile:
+      type: object
+      properties:
+        originalName:
+          type: string
+          description: Оригинальное имя файла
+        filename:
+          type: string
+          description: Имя файла в системе
+        mimetype:
+          type: string
+          description: MIME тип файла
+        size:
+          type: integer
+          description: Размер файла в байтах
+        compressedSize:
+          type: integer
+          description: Размер сжатого файла
+        compressionRatio:
+          type: number
+          description: Коэффициент сжатия
+        uploadedAt:
+          type: string
+          format: date-time
+          description: Дата загрузки
+
+    ParticipantCardSettings:
+      type: object
+      properties:
+        price:
+          type: number
+          minimum: 0
+          default: 100
+          description: Цена набора карточек
+        setsAvailable:
+          type: integer
+          minimum: 0
+          default: 10
+          description: Доступное количество наборов
+        isActive:
+          type: boolean
+          default: true
+          description: Активность набора
+
+    ParticipantCard:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор
+        festivalId:
+          type: string
+          description: ID фестиваля
+        groupName:
+          type: string
+          description: Название группы
+        eventId:
+          type: string
+          description: ID события
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantCardFile'
+          description: Файлы карточек
+        settings:
+          $ref: '#/components/schemas/ParticipantCardSettings'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    # Poster schemas
+    Poster:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор постера
+        title:
+          type: string
+          description: Название постера
+        image:
+          type: string
+          description: URL изображения постера
+        description:
+          type: string
+          description: Описание постера
+        eventDate:
+          type: string
+          format: date
+          description: Дата связанного события
+        isActive:
+          type: boolean
+          description: Активность постера
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreatePosterRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          minLength: 2
+          description: Название постера
+        description:
+          type: string
+          description: Описание постера
+        eventDate:
+          type: string
+          format: date
+          description: Дата связанного события
+        isActive:
+          type: boolean
+          default: true
+          description: Активность постера
+
+    # Content schemas
+    FestivalContent:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор контента
+        type:
+          type: string
+          enum: [text, image, list]
+          description: Тип контента
+        key:
+          type: string
+          description: Ключ контента
+        value:
+          description: Значение контента (тип зависит от type)
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateContentRequest:
+      type: object
+      required:
+        - type
+        - key
+        - value
+      properties:
+        type:
+          type: string
+          enum: [text, image, list]
+          description: Тип контента
+        key:
+          type: string
+          description: Ключ контента
+        value:
+          description: Значение контента
+
+    # Statistics schemas
+    Statistics:
+      type: object
+      properties:
+        totalApplications:
+          type: integer
+          description: Общее количество заявок
+        pendingApplications:
+          type: integer
+          description: Заявки в ожидании
+        approvedApplications:
+          type: integer
+          description: Одобренные заявки
+        rejectedApplications:
+          type: integer
+          description: Отклоненные заявки
+        totalGroups:
+          type: integer
+          description: Общее количество групп
+        totalMerchItems:
+          type: integer
+          description: Общее количество товаров
+        totalEvents:
+          type: integer
+          description: Общее количество событий
+        totalFestivals:
+          type: integer
+          description: Общее количество фестивалей
+        totalPosters:
+          type: integer
+          description: Общее количество постеров
+        totalCardSets:
+          type: integer
+          description: Общее количество наборов карточек
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          description: Описание ошибки
+        details:
+          type: object
+          description: Дополнительные детали ошибки
+
+    ValidationError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          example: "Validation failed"
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                description: Поле с ошибкой
+              message:
+                type: string
+                description: Сообщение об ошибке
+
+paths:
+  # Health Check
+  /health:
+    get:
+      tags: [Utility]
+      summary: Проверка состояния сервера
+      description: Эндпоинт для проверки работоспособности API
+      responses:
+        200:
+          description: Сервер работает нормально
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  # 🔐 AUTHENTICATION
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Регистрация администратора
+      description: Создание нового аккаунта администратора
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            example:
+              name: "Festival Admin"
+              email: "admin@festival.com"
+              password: "securepassword123"
+      responses:
+        201:
+          description: Администратор успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        400:
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        409:
+          description: Пользователь с таким email уже существует
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Вход в систему
+      description: Аутентификация администратора
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: "admin@festival.com"
+              password: "securepassword123"
+      responses:
+        200:
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        400:
+          description: Неверные учетные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/profile:
+    get:
+      tags: [Authentication]
+      summary: Получение профиля пользователя
+      description: Получение информации о текущем аутентифицированном пользователе
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Профиль пользователя
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/User'
+        401:
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/validate:
+    get:
+      tags: [Authentication]
+      summary: Валидация JWT токена
+      description: Проверка действительности JWT токена
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Токен действителен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Token is valid"
+        401:
+          description: Недействительный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # 📝 APPLICATIONS
+  /applications:
+    get:
+      tags: [Applications]
+      summary: Получение списка заявок
+      description: Получение всех заявок на участие (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          description: Фильтр по статусу заявки
+          schema:
+            type: string
+            enum: [pending, approved, rejected]
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Список заявок
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FestivalApplication'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        401:
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        403:
+          description: Недостаточно прав доступа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags: [Applications]
+      summary: Подача заявки на участие
+      description: Создание новой заявки на участие в фестивале (публичный эндпоинт)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApplicationRequest'
+            example:
+              groupName: "The Rock Stars"
+              contactTelegram: "@rockstars"
+              contactPhone: "+7900123456"
+              genre: "Rock"
+              description: "Мы молодая рок-группа из Москвы"
+              members: ["Иван Петров", "Мария Сидорова", "Алексей Козлов"]
+              socialLinks:
+                instagram: "rockstars_band"
+                youtube: "RockStarsChannel"
+      responses:
+        201:
+          description: Заявка успешно создана
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalApplication'
+        400:
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /applications/{id}:
+    get:
+      tags: [Applications]
+      summary: Получение заявки по ID
+      description: Получение детальной информации о заявке
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID заявки
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали заявки
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalApplication'
+        404:
+          description: Заявка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Applications]
+      summary: Обновление заявки
+      description: Обновление информации о заявке (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID заявки
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApplicationRequest'
+      responses:
+        200:
+          description: Заявка успешно обновлена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalApplication'
+        404:
+          description: Заявка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [Applications]
+      summary: Удаление заявки
+      description: Удаление заявки (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID заявки
+          schema:
+            type: string
+      responses:
+        204:
+          description: Заявка успешно удалена
+        404:
+          description: Заявка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /applications/{id}/status:
+    put:
+      tags: [Applications]
+      summary: Изменение статуса заявки
+      description: Обновление статуса заявки (одобрение/отклонение)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID заявки
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApplicationStatusRequest'
+            example:
+              status: "approved"
+              notes: "Отличная группа, одобряем для участия"
+      responses:
+        200:
+          description: Статус заявки успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalApplication'
+        400:
+          description: Неверный статус
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Заявка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # 🎵 GROUPS
+  /groups:
+    get:
+      tags: [Groups]
+      summary: Получение списка групп
+      description: Получение всех музыкальных групп
+      parameters:
+        - name: genre
+          in: query
+          description: Фильтр по жанру
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Список групп
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Groups]
+      summary: Создание новой группы
+      description: Добавление новой музыкальной группы (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                genre:
+                  type: string
+                description:
+                  type: string
+                members:
+                  type: array
+                  items:
+                    type: string
+                image:
+                  type: string
+                  format: binary
+                  description: Изображение группы
+      responses:
+        201:
+          description: Группа успешно создана
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Group'
+        400:
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /groups/{id}:
+    get:
+      tags: [Groups]
+      summary: Получение группы по ID
+      description: Получение детальной информации о группе
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID группы
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали группы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Group'
+        404:
+          description: Группа не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Groups]
+      summary: Обновление группы
+      description: Обновление информации о группе (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID группы
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                genre:
+                  type: string
+                description:
+                  type: string
+                members:
+                  type: array
+                  items:
+                    type: string
+                image:
+                  type: string
+                  format: binary
+                  description: Новое изображение группы
+      responses:
+        200:
+          description: Группа успешно обновлена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Group'
+        404:
+          description: Группа не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [Groups]
+      summary: Удаление группы
+      description: Удаление группы (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID группы
+          schema:
+            type: string
+      responses:
+        204:
+          description: Группа успешно удалена
+        404:
+          description: Группа не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # 📅 EVENTS
+  /events:
+    get:
+      tags: [Events]
+      summary: Получение списка событий
+      description: Получение всех событий фестиваля
+      parameters:
+        - name: status
+          in: query
+          description: Фильтр по статусу события
+          schema:
+            type: string
+            enum: [upcoming, ongoing, completed, cancelled]
+        - name: upcoming
+          in: query
+          description: Только предстоящие события
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Список событий
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Events]
+      summary: Создание нового события
+      description: Добавление нового события фестиваля (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                date:
+                  type: string
+                  format: date
+                time:
+                  type: string
+                venue:
+                  type: string
+                address:
+                  type: string
+                performers:
+                  type: array
+                  items:
+                    type: string
+                groupId:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+                  description: Изображение события
+      responses:
+        201:
+          description: Событие успешно создано
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Event'
+
+  /events/{id}:
+    get:
+      tags: [Events]
+      summary: Получение события по ID
+      description: Получение детальной информации о событии
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID события
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали события
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Event'
+        404:
+          description: Событие не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Events]
+      summary: Обновление события
+      description: Обновление информации о событии (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID события
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+      responses:
+        200:
+          description: Событие успешно обновлено
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Event'
+
+    delete:
+      tags: [Events]
+      summary: Удаление события
+      description: Удаление события (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID события
+          schema:
+            type: string
+      responses:
+        204:
+          description: Событие успешно удалено
+        404:
+          description: Событие не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /events/{id}/status:
+    patch:
+      tags: [Events]
+      summary: Изменение статуса события
+      description: Обновление статуса события (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID события
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [upcoming, ongoing, completed, cancelled]
+                  description: Новый статус события
+      responses:
+        200:
+          description: Статус события успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Event'
+
+  # 🎪 FESTIVALS
+  /festivals:
+    get:
+      tags: [Festivals]
+      summary: Получение списка фестивалей
+      description: Получение всех фестивалей
+      parameters:
+        - name: status
+          in: query
+          description: Фильтр по статусу фестиваля
+          schema:
+            type: string
+            enum: [upcoming, ongoing, completed, cancelled]
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Список фестивалей
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Festival'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Festivals]
+      summary: Создание нового фестиваля
+      description: Добавление нового фестиваля (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFestivalRequest'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                date:
+                  type: string
+                  format: date
+                venue:
+                  type: string
+                description:
+                  type: string
+                time:
+                  type: string
+                address:
+                  type: string
+                performers:
+                  type: array
+                  items:
+                    type: string
+                image:
+                  type: string
+                  format: binary
+                  description: Изображение фестиваля
+      responses:
+        201:
+          description: Фестиваль успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Festival'
+
+  /festivals/{id}:
+    get:
+      tags: [Festivals]
+      summary: Получение фестиваля по ID
+      description: Получение детальной информации о фестивале
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID фестиваля
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали фестиваля
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Festival'
+        404:
+          description: Фестиваль не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Festivals]
+      summary: Обновление фестиваля
+      description: Обновление информации о фестивале (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID фестиваля
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFestivalRequest'
+      responses:
+        200:
+          description: Фестиваль успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Festival'
+
+    delete:
+      tags: [Festivals]
+      summary: Удаление фестиваля
+      description: Удаление фестиваля (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID фестиваля
+          schema:
+            type: string
+      responses:
+        204:
+          description: Фестиваль успешно удален
+        404:
+          description: Фестиваль не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  # 🛍️ MERCHANDISE
+  /merch:
+    get:
+      tags: [Merchandise]
+      summary: Получение каталога товаров
+      description: Получение всех товаров мерчендайза
+      parameters:
+        - name: category
+          in: query
+          description: Фильтр по категории товара
+          schema:
+            type: string
+        - name: inStock
+          in: query
+          description: Только товары в наличии
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Каталог товаров
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MerchItem'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Merchandise]
+      summary: Добавление нового товара
+      description: Создание нового товара мерчендайза (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMerchItemRequest'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                stock:
+                  type: integer
+                category:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+                  description: Изображение товара
+      responses:
+        201:
+          description: Товар успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/MerchItem'
+
+  /merch/{id}:
+    get:
+      tags: [Merchandise]
+      summary: Получение товара по ID
+      description: Получение детальной информации о товаре
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID товара
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали товара
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/MerchItem'
+        404:
+          description: Товар не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Merchandise]
+      summary: Обновление товара
+      description: Обновление информации о товаре (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID товара
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMerchItemRequest'
+      responses:
+        200:
+          description: Товар успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/MerchItem'
+
+    delete:
+      tags: [Merchandise]
+      summary: Удаление товара
+      description: Удаление товара (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID товара
+          schema:
+            type: string
+      responses:
+        204:
+          description: Товар успешно удален
+        404:
+          description: Товар не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /merch/{id}/stock:
+    patch:
+      tags: [Merchandise]
+      summary: Обновление остатков товара
+      description: Обновление количества товара на складе (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID товара
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStockRequest'
+      responses:
+        200:
+          description: Остатки успешно обновлены
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/MerchItem'
+
+  # 🎴 CARDS
+  /cards:
+    get:
+      tags: [Cards]
+      summary: Получение наборов карточек
+      description: Получение всех наборов коллекционных карточек
+      parameters:
+        - name: festivalId
+          in: query
+          description: Фильтр по ID фестиваля
+          schema:
+            type: string
+        - name: available
+          in: query
+          description: Только доступные наборы
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Список наборов карточек
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CardSet'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Cards]
+      summary: Создание набора карточек
+      description: Создание нового набора коллекционных карточек (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCardSetRequest'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                festivalId:
+                  type: string
+                cardsInSet:
+                  type: integer
+                setsAvailable:
+                  type: integer
+                price:
+                  type: number
+                image:
+                  type: string
+                  format: binary
+                  description: Изображение набора
+      responses:
+        201:
+          description: Набор карточек успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/CardSet'
+
+  /cards/{id}:
+    get:
+      tags: [Cards]
+      summary: Получение набора карточек по ID
+      description: Получение детальной информации о наборе карточек
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID набора карточек
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали набора карточек
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/CardSet'
+        404:
+          description: Набор карточек не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Cards]
+      summary: Обновление набора карточек
+      description: Обновление информации о наборе карточек (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID набора карточек
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCardSetRequest'
+      responses:
+        200:
+          description: Набор карточек успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/CardSet'
+
+    delete:
+      tags: [Cards]
+      summary: Удаление набора карточек
+      description: Удаление набора карточек (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID набора карточек
+          schema:
+            type: string
+      responses:
+        204:
+          description: Набор карточек успешно удален
+        404:
+          description: Набор карточек не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # 🎭 PARTICIPANT CARDS
+  /participant-cards:
+    get:
+      tags: [Participant Cards]
+      summary: Получение карточек участников
+      description: Получение всех карточек участников фестиваля
+      parameters:
+        - name: festivalId
+          in: query
+          description: Фильтр по ID фестиваля
+          schema:
+            type: string
+        - name: groupName
+          in: query
+          description: Фильтр по названию группы
+          schema:
+            type: string
+        - name: active
+          in: query
+          description: Только активные карточки
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Список карточек участников
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ParticipantCard'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Participant Cards]
+      summary: Создание карточек участников
+      description: Создание новых карточек участников с загрузкой изображений (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - festivalId
+                - groupName
+                - eventId
+                - cards
+              properties:
+                festivalId:
+                  type: string
+                  description: ID фестиваля
+                groupName:
+                  type: string
+                  description: Название группы
+                eventId:
+                  type: string
+                  description: ID события
+                cards:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Файлы карточек (изображения)
+                price:
+                  type: number
+                  description: Цена набора карточек
+                setsAvailable:
+                  type: integer
+                  description: Доступное количество наборов
+                isActive:
+                  type: boolean
+                  description: Активность набора
+      responses:
+        201:
+          description: Карточки участников успешно созданы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/ParticipantCard'
+
+  /participant-cards/{id}:
+    get:
+      tags: [Participant Cards]
+      summary: Получение карточек участников по ID
+      description: Получение детальной информации о карточках участников
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID карточек участников
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали карточек участников
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/ParticipantCard'
+        404:
+          description: Карточки участников не найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Participant Cards]
+      summary: Обновление карточек участников
+      description: Обновление настроек карточек участников (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID карточек участников
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                settings:
+                  $ref: '#/components/schemas/ParticipantCardSettings'
+      responses:
+        200:
+          description: Карточки участников успешно обновлены
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/ParticipantCard'
+
+    delete:
+      tags: [Participant Cards]
+      summary: Удаление карточек участников
+      description: Удаление карточек участников (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID карточек участников
+          schema:
+            type: string
+      responses:
+        204:
+          description: Карточки участников успешно удалены
+        404:
+          description: Карточки участников не найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # 📋 POSTERS
+  /posters:
+    get:
+      tags: [Posters]
+      summary: Получение списка постеров
+      description: Получение всех постеров и афиш
+      parameters:
+        - name: active
+          in: query
+          description: Только активные постеры
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Список постеров
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Poster'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Posters]
+      summary: Загрузка нового постера
+      description: Создание нового постера с загрузкой изображения (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - title
+                - image
+              properties:
+                title:
+                  type: string
+                  description: Название постера
+                description:
+                  type: string
+                  description: Описание постера
+                eventDate:
+                  type: string
+                  format: date
+                  description: Дата связанного события
+                isActive:
+                  type: boolean
+                  description: Активность постера
+                image:
+                  type: string
+                  format: binary
+                  description: Изображение постера
+      responses:
+        201:
+          description: Постер успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Poster'
+
+  /posters/{id}:
+    get:
+      tags: [Posters]
+      summary: Получение постера по ID
+      description: Получение детальной информации о постере
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID постера
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали постера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Poster'
+        404:
+          description: Постер не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Posters]
+      summary: Обновление постера
+      description: Обновление информации о постере (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID постера
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePosterRequest'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                eventDate:
+                  type: string
+                  format: date
+                isActive:
+                  type: boolean
+                image:
+                  type: string
+                  format: binary
+                  description: Новое изображение постера
+      responses:
+        200:
+          description: Постер успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Poster'
+
+    delete:
+      tags: [Posters]
+      summary: Удаление постера
+      description: Удаление постера (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID постера
+          schema:
+            type: string
+      responses:
+        204:
+          description: Постер успешно удален
+        404:
+          description: Постер не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # 📄 CONTENT
+  /content:
+    get:
+      tags: [Content]
+      summary: Получение контента сайта
+      description: Получение всего контента для сайта
+      parameters:
+        - name: type
+          in: query
+          description: Фильтр по типу контента
+          schema:
+            type: string
+            enum: [text, image, list]
+        - name: key
+          in: query
+          description: Поиск по ключу контента
+          schema:
+            type: string
+      responses:
+        200:
+          description: Контент сайта
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FestivalContent'
+
+    post:
+      tags: [Content]
+      summary: Создание контента
+      description: Создание нового контента для сайта (только для администраторов)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContentRequest'
+      responses:
+        201:
+          description: Контент успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalContent'
+
+  /content/key/{key}:
+    get:
+      tags: [Content]
+      summary: Получение контента по ключу
+      description: Получение конкретного контента по его ключу
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: Ключ контента
+          schema:
+            type: string
+      responses:
+        200:
+          description: Контент найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalContent'
+        404:
+          description: Контент не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /content/{id}:
+    get:
+      tags: [Content]
+      summary: Получение контента по ID
+      description: Получение контента по его идентификатору
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID контента
+          schema:
+            type: string
+      responses:
+        200:
+          description: Детали контента
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalContent'
+        404:
+          description: Контент не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [Content]
+      summary: Обновление контента
+      description: Обновление существующего контента (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID контента
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContentRequest'
+      responses:
+        200:
+          description: Контент успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalContent'
+
+    delete:
+      tags: [Content]
+      summary: Удаление контента
+      description: Удаление контента (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID контента
+          schema:
+            type: string
+      responses:
+        204:
+          description: Контент успешно удален
+        404:
+          description: Контент не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /content/upsert/{key}:
+    post:
+      tags: [Content]
+      summary: Создание или обновление контента по ключу
+      description: Создание нового контента или обновление существующего по ключу (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: Ключ контента
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - type
+                - value
+              properties:
+                type:
+                  type: string
+                  enum: [text, image, list]
+                  description: Тип контента
+                value:
+                  description: Значение контента
+      responses:
+        200:
+          description: Контент успешно создан или обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FestivalContent'
+
+  # 📊 STATISTICS
+  /stats:
+    get:
+      tags: [Statistics]
+      summary: Общая статистика системы
+      description: Получение общей статистики платформы (только для администраторов)
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Статистика системы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Statistics'
+        401:
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /stats/activity:
+    get:
+      tags: [Statistics]
+      summary: Последняя активность
+      description: Получение информации о последней активности в системе (только для администраторов)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          description: Количество записей активности
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        200:
+          description: Последняя активность
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        action:
+                          type: string
+                          description: Тип действия
+                        entity:
+                          type: string
+                          description: Сущность, с которой произошло действие
+                        entityId:
+                          type: string
+                          description: ID сущности
+                        timestamp:
+                          type: string
+                          format: date-time
+                          description: Время действия
+                        details:
+                          type: object
+                          description: Дополнительные детали
+
+  /stats/dashboard:
+    get:
+      tags: [Statistics]
+      summary: Данные для дашборда
+      description: Получение агрегированных данных для административного дашборда (только для администраторов)
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Данные дашборда
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      stats:
+                        $ref: '#/components/schemas/Statistics'
+                      recentApplications:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FestivalApplication'
+                      upcomingEvents:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Event'
+                      recentActivity:
+                        type: array
+                        items:
+                          type: object
+
+  # 🔧 UTILITY ENDPOINTS
+  /uploads/{filename}:
+    get:
+      tags: [Utility]
+      summary: Доступ к загруженным файлам
+      description: Получение загруженных файлов (изображения, документы)
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          description: Имя файла
+          schema:
+            type: string
+      responses:
+        200:
+          description: Файл найден
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Файл не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+# Security definitions
+security:
+  - BearerAuth: []
+
+# Examples and additional documentation
+externalDocs:
+  description: Дополнительная документация
+  url: https://github.com/your-repo/festival-management-system/wiki

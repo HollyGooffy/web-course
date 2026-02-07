@@ -1,0 +1,35 @@
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.message {
+  margin: 16px 0 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: inherit;
+}
+
+/* Варианты размеров */
+.loadingState.small {
+  padding: 20px;
+}
+
+.loadingState.small .message {
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+
+.loadingState.large {
+  padding: 60px 20px;
+}
+
+.loadingState.large .message {
+  margin-top: 24px;
+  font-size: 1.125rem;
+}

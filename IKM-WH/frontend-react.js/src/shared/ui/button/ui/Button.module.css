@@ -1,0 +1,26 @@
+.btn {
+    border: none;
+    border-radius: 12px;
+    padding: 17px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+    width: 100%;
+}
+
+.btn--primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn--primary:hover {
+    transform: scale(1.05);
+}
+
+.ghost {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.ghost:hover {
+    background: rgba(255, 255, 255, 0.7);
+}

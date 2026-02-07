@@ -1,0 +1,534 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    padding: 20px;
+}
+
+.modalContent {
+    background: white;
+    border-radius: 12px;
+    width: 100% !important;
+    max-width: 900px !important;
+    max-height: 95vh !important;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 32px;
+    border-bottom: 1px solid #e5e7eb;
+    background: var(--light);
+    color: var(--dark);
+}
+
+.festivalInfo h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.festivalMeta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.metaItem svg {
+    flex-shrink: 0;
+}
+
+.closeButton {
+    background: rgba(205, 205, 205, 0.4);
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 15px;
+    color: var(--dark);
+    transition: all 0.2s;
+}
+
+.closeButton:hover {
+    background: rgba(120, 120, 120, 0.3);
+}
+
+.modalBody {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px;
+    min-height: 400px;
+}
+
+.festivalDetails {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.festivalImage {
+    width: 200px;
+    height: 150px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.festivalImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+}
+
+.festivalDescription {
+    flex: 1;
+}
+
+.festivalDescription p {
+    margin: 0 0 16px 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #374151;
+}
+
+.performers {
+    margin-top: 16px;
+}
+
+.performersHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.performersList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.performer {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.cardSetsSection h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.cardSetsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Адаптивность для сетки карточек */
+@media (min-width: 1200px) {
+    .cardSetsGrid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+    .cardSetsGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+    .cardSetsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 599px) {
+    .cardSetsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cardSetItem {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.cardSetItem:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.cardSetImage {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center 25%;
+    background-color: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardSetImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+}
+
+.noImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+}
+
+.cardSetInfo {
+    padding: 20px;
+}
+
+.cardSetInfo h4 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.detail svg {
+    flex-shrink: 0;
+}
+
+.stock {
+    font-weight: 600;
+    color: #059669;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #667eea;
+    margin-top: 4px;
+}
+
+.price svg {
+    flex-shrink: 0;
+}
+
+.buyButton {
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.buyButton:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.buyButton:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .modalContent {
+        max-width: 95% !important;
+        min-width: auto;
+        margin: 0;
+        border-radius: 12px;
+        max-height: 95vh !important;
+        min-height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .modalContent {
+        max-width: 100% !important;
+        min-width: auto;
+        margin: 0;
+        border-radius: 0;
+        max-height: 100vh !important;
+        min-height: auto;
+    }
+
+    .modalHeader {
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .modalBody {
+        padding: 16px;
+    }
+
+    .festivalDetails {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .festivalImage {
+        width: 100%;
+        height: 200px;
+    }
+
+    .festivalMeta {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+.festivalTitleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.festivalTitleRow h2 {
+    margin: 0;
+    flex: 1;
+}
+
+.statusBadge {
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.statusBadge.upcoming {
+    background: rgba(59, 130, 246, 0.8);
+}
+
+.statusBadge.ongoing {
+    background: rgba(34, 197, 94, 0.8);
+}
+
+.statusBadge.completed {
+    background: rgba(245, 158, 11, 0.8);
+}
+
+/* Секция карточек участников */
+.participantCardsSection {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.participantCardsSection h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.participantCardsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.participantCardSet {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.participantCardSet:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.participantCardInfo {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.participantCardInfo h4 {
+    margin: 0 0 16px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.participantDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.participantCardPreview {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    padding: 20px;
+}
+
+.loadingCards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+}
+
+.loadingCards p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.groupsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 24px;
+}
+
+.groupCard {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.groupCard:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+/* Адаптивность для карточек участников */
+@media (max-width: 768px) {
+    .participantCardsGrid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .participantCardSet {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .participantCardPreview {
+        min-width: auto;
+        min-height: 200px;
+    }
+
+    .groupsContainer {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .participantCardsSection {
+        margin-top: 24px;
+        padding-top: 16px;
+    }
+}
+
+.emptyParticipantCards {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #6b7280;
+    gap: 12px;
+}
+
+.emptyState p {
+    margin: 0;
+    font-size: 1rem;
+}

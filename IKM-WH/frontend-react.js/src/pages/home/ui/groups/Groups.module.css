@@ -1,0 +1,175 @@
+.groups {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.groupsContainer {
+    width: 100%;
+}
+
+.groupsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.loadMoreContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.loadMoreButton {
+    background: var(--accent-light);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loadMoreButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+
+
+/* Groups Counter */
+.groupsCounter {
+    text-align: center;
+    margin-top: 24px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Group Card Wrapper with Animation */
+.groupCardWrapper {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Load More Button Loading State */
+.loadMoreButton.loading {
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.loadMoreButton.loading:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(156, 163, 175, 0.3);
+}
+
+/* Spinner Animation */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.groupCard {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.groupCard:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(255, 139, 117, 0.3);
+}
+
+.groupCardImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center 30%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.groupCardContent {
+    padding: 20px;
+}
+
+.groupCardTitle {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.groupCardGenre {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.groupCardButton {
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .loadMoreContainer {
+        margin-top: 30px;
+    }
+    
+    .loadMoreButton {
+        padding: 14px 28px;
+        font-size: 15px;
+    }
+    
+    .groupsCounter {
+        margin-top: 20px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loadMoreContainer {
+        margin-top: 24px;
+    }
+    
+    .loadMoreButton {
+        padding: 12px 24px;
+        font-size: 14px;
+        gap: 6px;
+    }
+    
+    .groupsCounter {
+        margin-top: 16px;
+        font-size: 12px;
+    }
+    
+    .groupsGrid {
+        gap: 20px;
+    }
+}

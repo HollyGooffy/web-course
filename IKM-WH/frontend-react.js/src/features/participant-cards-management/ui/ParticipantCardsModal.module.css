@@ -1,0 +1,493 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 0;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 0;
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  flex-shrink: 0;
+}
+
+.festivalInfo h2 {
+  margin: 0 0 12px 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.festivalMeta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.metaItem svg {
+  flex-shrink: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.closeButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  color: white;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.festivalImage {
+  width: 100%;
+  max-width: 400px;
+  height: 200px;
+  margin: 0 auto 24px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.festivalImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.festivalDescription {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.festivalDescription p {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #374151;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.groupsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 24px;
+}
+
+.groupCard {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.groupCard:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.emptyState svg {
+  color: #d1d5db;
+  margin-bottom: 16px;
+}
+
+.emptyState h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.emptyState p {
+  margin: 0;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+}
+
+/* Массовая загрузка */
+.bulkUploadSection {
+  background: #f0f9ff;
+  border: 2px dashed #0ea5e9;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.bulkUploadSection h4 {
+  margin: 0 0 8px 0;
+  color: #0c4a6e;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.bulkUploadSection p {
+  margin: 0 0 20px 0;
+  color: #0369a1;
+  font-size: 0.95rem;
+}
+
+.bulkUploadArea {
+  position: relative;
+}
+
+.bulkFileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.bulkUploadLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: white;
+  border: 2px dashed #0ea5e9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 120px;
+}
+
+.bulkUploadLabel:hover {
+  border-color: #0284c7;
+  background: #f8fafc;
+}
+
+.bulkUploadLabel svg {
+  color: #0ea5e9;
+  margin-bottom: 12px;
+}
+
+.bulkUploadLabel p {
+  margin: 0;
+  color: #0c4a6e;
+  font-weight: 500;
+}
+
+.bulkUploadLabel .hint {
+  font-size: 0.85rem;
+  color: #0369a1;
+  margin-top: 4px;
+}
+
+.uploadProgress {
+  width: 100%;
+  max-width: 300px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: #e0f2fe;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5e9, #0284c7);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.currentFile {
+  font-size: 0.8rem;
+  color: #0369a1;
+  margin-top: 4px;
+  word-break: break-all;
+}
+
+.clearAllButton {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearAllButton:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.clearAllButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cancelButton {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saveButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .modalHeader {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .modalBody {
+    padding: 16px;
+  }
+
+  .modalFooter {
+    padding: 16px;
+  }
+
+  .groupsContainer {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .festivalMeta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .bulkUploadSection {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .bulkUploadLabel {
+    padding: 24px 16px;
+    min-height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .festivalInfo h2 {
+    font-size: 1.5rem;
+  }
+
+  .modalFooter {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .saveButton {
+    width: 100%;
+  }
+}
+
+/* Стили для заголовка группы */
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.groupHeader h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.groupActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.deleteGroupButton {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 100px;
+}
+
+.deleteGroupButton:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.deleteGroupButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.saveGroupButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.saveGroupButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.saveGroupButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 480px) {
+  .groupHeader {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .groupActions {
+    width: 100%;
+  }
+  
+  .deleteGroupButton,
+  .saveGroupButton {
+    flex: 1;
+  }
+}

@@ -1,0 +1,165 @@
+.heroFan {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 270px;
+    perspective: 1000px;
+}
+
+.groupIndicator {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.groupBadge {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: var(--shadow-md);
+    white-space: nowrap;
+}
+
+.refreshButton {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+}
+
+.refreshButton:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: rotate(180deg);
+}
+
+.heroFanImg {
+    width: 225px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    position: absolute;
+    bottom: 0;
+    filter: grayscale(100%);
+    transform-origin: bottom center;
+    backface-visibility: hidden;
+    transition: transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+.heroFanImg:nth-child(2) {
+    transform: rotateY(-18deg) rotate(-20deg) translateX(-90px);
+    z-index: 1;
+}
+
+.heroFanImg:nth-child(3) {
+    transform: rotateY(-12deg) rotate(-14deg) translateX(-65px);
+    z-index: 2;
+}
+
+.heroFanImg:nth-child(4) {
+    transform: rotateY(-8deg) rotate(-8deg) translateX(-40px);
+    z-index: 3;
+}
+
+.heroFanImg:nth-child(5) {
+    transform: rotateY(-4deg) rotate(-3deg) translateX(-15px);
+    z-index: 4;
+}
+
+.heroFanImg:nth-child(6) {
+    transform: rotateY(0deg) rotate(0deg) translateX(0);
+    z-index: 5;
+}
+
+.heroFanImg:nth-child(7) {
+    transform: rotateY(4deg) rotate(3deg) translateX(15px);
+    z-index: 6;
+}
+
+.heroFanImg:nth-child(8) {
+    transform: rotateY(8deg) rotate(8deg) translateX(40px);
+    z-index: 7;
+}
+
+.heroFanImg:nth-child(9) {
+    transform: rotateY(12deg) rotate(14deg) translateX(65px);
+    z-index: 8;
+}
+
+.heroFanImg:nth-child(10) {
+    transform: rotateY(18deg) rotate(20deg) translateX(90px);
+    z-index: 9;
+}
+
+.heroFanImg:hover {
+    transform: rotateY(0deg) translateY(-10px) translateZ(80px) scale(1.08);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    z-index: 15;
+    filter: grayscale(0%);
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 270px;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+@media (max-width: 992px) {
+    .heroFan {
+        height: 400px;
+    }
+
+    .heroFanImg {
+        width: 140px;
+        height: 190px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 992px) {
+    .heroFan {
+        height: 400px;
+    }
+
+    .heroFanImg {
+        width: 180px;
+        height: 240px;
+    }
+}
+
+@media (max-width: 576px) {
+    .heroFan {
+        height: 300px;
+    }
+
+    .heroFanImg {
+        width: 160px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 400px) {
+    .heroFanImg {
+        width: 120px;
+        height: 160px;
+    }
+}

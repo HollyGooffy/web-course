@@ -1,0 +1,87 @@
+.musicStaff {
+    position: relative;
+    height: 120px;
+    margin: 2rem 0;
+    background: linear-gradient(to bottom,
+    transparent 0%,
+    transparent 19%,
+    var(--dark) 20%,
+    var(--dark) 21%,
+    transparent 22%,
+    transparent 39%,
+    var(--dark) 40%,
+    var(--dark) 41%,
+    transparent 42%,
+    transparent 59%,
+    var(--dark) 60%,
+    var(--dark) 61%,
+    transparent 62%,
+    transparent 79%,
+    var(--dark) 80%,
+    var(--dark) 81%,
+    transparent 82%
+    );
+    border-radius: var(--radius);
+    padding: 0 2rem;
+}
+
+.staffLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--dark);
+}
+
+.staffLine:nth-child(1) { top: 20%; }
+.staffLine:nth-child(2) { top: 40%; }
+.staffLine:nth-child(3) { top: 60%; }
+.staffLine:nth-child(4) { top: 80%; }
+.staffLine:nth-child(5) { top: 100%; }
+
+.errorNumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 3rem;
+}
+
+.musicDigit {
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--accent);
+    text-shadow:
+            2px 2px 0 var(--dark-light),
+            4px 4px 0 rgba(0, 0, 0, 0.1);
+    animation: bounceDigit 2s ease-in-out infinite;
+}
+
+.musicDigit:nth-child(1) { animation-delay: 0s; }
+.musicDigit:nth-child(2) { animation-delay: 0.2s; }
+.musicDigit:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounceDigit {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+    .musicStaff {
+        height: 80px;
+    }
+
+    .musicDigit {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .errorNumber {
+        gap: 1.5rem;
+    }
+    .musicDigit {
+        font-size: 2.5rem;
+    }
+
+}

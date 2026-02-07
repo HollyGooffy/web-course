@@ -1,0 +1,1 @@
+export {DEFAULT_GAP, DEFAULT_MARGIN_BOTTOM, DEFAULT_MIN_WIDTH} from './grid-default.ts'

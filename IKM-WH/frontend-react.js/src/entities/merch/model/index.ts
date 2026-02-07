@@ -1,0 +1,1 @@
+export type { MerchItem, MerchApiItem } from './types';

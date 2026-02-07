@@ -1,0 +1,119 @@
+.hero {
+    padding: 250px 0 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 139, 117, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(158, 204, 230, 0.15) 0%, transparent 50%);
+    z-index: -1;
+}
+
+.heroGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+
+}
+
+.heroContent {
+    max-width: 600px;
+}
+
+.heroTitle {
+    font-family: "Pacifico", cursive;
+    font-size: 5rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    color: var(--dark);
+}
+
+.heroSubtitle {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.heroButtons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.heroButtons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 992px) {
+    .heroGrid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        display: grid;
+        place-items: center ;
+        gap: 40px;
+    }
+
+    .heroTitle {
+        font-size: 3.2rem;
+    }
+
+    .heroContent {
+        display: grid;
+        place-items: center ;
+    }
+
+
+    .heroButtons{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .heroTitle {
+        font-size: 2.8rem;
+    }
+
+    .heroSubtitle {
+        font-size: 1.1rem;
+    }
+
+    .heroGrid{
+        margin-top: -60px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        padding: 200px 0 80px;
+    }
+
+    .heroTitle {
+        font-size: 4rem;
+    }
+
+    .heroSubtitle{
+        font-size: 1.5rem;
+    }
+
+    .heroButtons {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .heroButtons .btn {
+        width: 100%;
+    }
+}

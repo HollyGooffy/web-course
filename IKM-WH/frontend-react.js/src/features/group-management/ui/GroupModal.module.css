@@ -1,0 +1,371 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+
+
+.modalContent {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #6b7280;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: #1f2937;
+}
+
+.modalBody {
+    padding: 24px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+}
+
+.textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.2s;
+    line-height: 1.5;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.memberRow {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.memberRow input {
+    flex: 1;
+}
+
+.removeMemberBtn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.removeMemberBtn:hover {
+    background: #dc2626;
+}
+
+.error {
+    display: block;
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.modalFooter {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 20px 0px;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 0 0 12px 12px;
+}
+
+@media (max-width: 768px) {
+    .modalOverlay {
+        padding: 20px;
+        align-items: flex-start;
+    }
+
+    .modalContent {
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .modalHeader {
+        padding: 16px 20px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px 12px 0 0;
+    }
+
+    .modalHeader h2 {
+        font-size: 20px;
+    }
+
+    .closeButton {
+        padding: 8px;
+        min-width: 40px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .addMemberBtn{
+        width: 100%;
+    }
+
+    .modalBody {
+        padding: 20px;
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .formGroup {
+        margin-bottom: 24px;
+    }
+
+    .formGroup label {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    /* Все инпуты во всю ширину на мобильных */
+    .formGroup input,
+    .formGroup select,
+    .textarea {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .textarea {
+        padding: 14px 16px;
+        font-size: 16px;
+        min-height: 120px;
+    }
+
+    .memberRow {
+        margin-bottom: 12px;
+        display: flex;
+        gap: 8px;
+    }
+
+    .memberRow input {
+        flex: 1;
+        width: auto;
+    }
+
+    .removeMemberBtn {
+        padding: 12px;
+        min-width: 44px;
+        min-height: 44px;
+        flex-shrink: 0;
+    }
+
+    .imagePreview {
+        height: 67px; /* 200px / 3 ≈ 67px */
+    }
+
+    .uploadArea {
+        padding: 20px;
+    }
+
+    .modalFooter {
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px 0px;
+        flex-shrink: 0;
+        bottom: 0;
+        background: white;
+    }
+
+    .modalFooter button {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+        min-height: 48px;
+    }
+}
+
+/* Полноэкранный режим только для очень маленьких экранов */
+@media (max-width: 480px) {
+    .modalOverlay {
+        padding: 10px;
+    }
+
+    .modalHeader {
+        padding: 12px 16px;
+        border-radius: 0;
+    }
+
+    .modalBody {
+        padding: 16px;
+    }
+
+    .modalFooter {
+        padding: 16px 0px;
+    }
+
+    .formGroup {
+        margin-bottom: 20px;
+    }
+
+    /* Дополнительно уменьшаем отступы для загрузки изображения */
+    .uploadArea {
+        padding: 16px;
+    }
+}
+
+
+.imageUpload {
+    margin-top: 8px;
+}
+
+.uploadArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f9fafb;
+}
+
+.uploadArea:hover {
+    border-color: #667eea;
+    background: #eef2ff;
+}
+
+.uploadArea svg {
+    color: #9ca3af;
+    margin-bottom: 12px;
+}
+
+.uploadArea span {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.uploadArea small {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.fileInput {
+    display: none;
+}
+
+.imagePreviewContainer {
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.imagePreview {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.removeImage {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.removeImage:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+@media (max-width: 450px) {
+    /* Кнопка добавления участника во всю ширину */
+    .formGroup > button {
+        width: 100%;
+    }
+    
+    /* Исключаем кнопку удаления участника из memberRow */
+    .memberRow .removeMemberBtn {
+        width: auto !important;
+        min-width: 44px;
+        flex-shrink: 0;
+    }
+}

@@ -1,0 +1,15 @@
+.quickActions button {
+    flex: 1;
+    min-width: 200px;
+}
+
+@media (max-width: 768px) {
+    .quickActions {
+        flex-direction: column;
+    }
+
+    .quickActions button {
+        width: 100%;
+        min-width: auto;
+    }
+}

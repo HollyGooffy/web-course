@@ -1,0 +1,1 @@
+export { MerchModal } from './ui/MerchModal';

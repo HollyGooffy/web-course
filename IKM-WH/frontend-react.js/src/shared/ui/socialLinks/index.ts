@@ -1,0 +1,1 @@
+export {type SocialsLinksProps, SocialLinks} from './ui'

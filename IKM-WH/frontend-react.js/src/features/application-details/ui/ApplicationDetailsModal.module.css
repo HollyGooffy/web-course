@@ -1,0 +1,254 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modalContent {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #6b7280;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: #1f2937;
+}
+
+.modalBody {
+    padding: 24px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+}
+
+.fieldValue {
+    padding: 12px 16px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #374151;
+}
+
+.membersList {
+    margin: 0;
+    padding: 12px 16px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    list-style: none;
+}
+
+.membersList li {
+    padding: 4px 0;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+    color: #374151;
+}
+
+.membersList li:last-child {
+    border-bottom: none;
+}
+
+.modalFooter {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 20px 24px;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 0 0 12px 12px;
+}
+
+.btnApprove,
+.btnReject,
+.btnClose {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    min-width: 100px;
+}
+
+.btnApprove {
+    background: #10b981;
+    color: white;
+}
+
+.btnApprove:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btnReject {
+    background: #ef4444;
+    color: white;
+}
+
+.btnReject:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btnClose {
+    background: #6b7280;
+    color: white;
+}
+
+.btnClose:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+@media (max-width: 768px) {
+    .modalOverlay {
+        padding: 20px;
+        align-items: flex-start;
+    }
+
+    .modalContent {
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .modalHeader {
+        padding: 16px 20px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px 12px 0 0;
+    }
+
+    .modalHeader h2 {
+        font-size: 20px;
+    }
+
+    .closeButton {
+        padding: 8px;
+        min-width: 40px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modalBody {
+        padding: 20px;
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .formGroup {
+        margin-bottom: 24px;
+    }
+
+    .formGroup label {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .fieldValue {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+
+    .modalFooter {
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px;
+        flex-shrink: 0;
+        bottom: 0;
+        background: white;
+    }
+
+    .modalFooter button {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalOverlay {
+        padding: 10px;
+    }
+
+    .modalHeader {
+        padding: 12px 16px;
+        border-radius: 0;
+    }
+
+    .modalBody {
+        padding: 16px;
+    }
+
+    .modalFooter {
+        padding: 16px;
+    }
+
+    .formGroup {
+        margin-bottom: 20px;
+    }
+}

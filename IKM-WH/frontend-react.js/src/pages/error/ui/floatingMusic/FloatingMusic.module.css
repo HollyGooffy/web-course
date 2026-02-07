@@ -1,0 +1,33 @@
+.floatingMusic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.musicSymbol {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.3;
+    animation: floatMusic 15s linear infinite;
+    color: var(--accent);
+}
+
+@keyframes floatMusic {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}

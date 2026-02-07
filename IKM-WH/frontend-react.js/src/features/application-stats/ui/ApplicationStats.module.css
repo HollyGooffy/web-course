@@ -1,0 +1,49 @@
+.statCard {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.statCard h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+.statNumber {
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+}
+
+.statsGrid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1023px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.8rem !important;
+  }
+  
+  .statCard {
+    padding: 16px;
+  }
+  
+  .statNumber {
+    font-size: 24px;
+  }
+}

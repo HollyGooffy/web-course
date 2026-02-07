@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест формы заявки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            font-family: inherit;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .message {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Тест формы заявки на фестиваль</h1>
+        
+        <div id="message"></div>
+        
+        <form id="applicationForm">
+            <div class="form-group">
+                <label for="groupName">Название группы *</label>
+                <input type="text" id="groupName" name="groupName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contactTelegram">Telegram для связи *</label>
+                <input type="text" id="contactTelegram" name="contactTelegram" placeholder="@username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contactPhone">Телефон для связи *</label>
+                <input type="tel" id="contactPhone" name="contactPhone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Жанр *</label>
+                <input type="text" id="genre" name="genre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание группы *</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="members">Участники группы (каждый с новой строки) *</label>
+                <textarea id="members" name="members" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="instagram">Instagram (необязательно)</label>
+                <input type="url" id="instagram" name="instagram" placeholder="https://instagram.com/yourband">
+            </div>
+
+            <div class="form-group">
+                <label for="youtube">YouTube (необязательно)</label>
+                <input type="url" id="youtube" name="youtube" placeholder="https://youtube.com/yourband">
+            </div>
+
+            <button type="submit" id="submitBtn">Отправить заявку</button>
+        </form>
+
+        <div id="response"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api';
+        
+        // Заполнить форму тестовыми данными
+        document.getElementById('groupName').value = 'Тестовая группа';
+        document.getElementById('contactTelegram').value = '@testband';
+        document.getElementById('contactPhone').value = '+7 (999) 123-45-67';
+        document.getElementById('genre').value = 'Рок';
+        document.getElementById('description').value = 'Мы молодая рок-группа с опытом выступлений на местных площадках. Играем собственные композиции и кавер-версии известных хитов.';
+        document.getElementById('members').value = 'Иван Иванов\nПетр Петров\nСергей Сергеев';
+        document.getElementById('instagram').value = 'https://instagram.com/testband';
+        document.getElementById('youtube').value = 'https://youtube.com/testband';
+
+        document.getElementById('applicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const messageDiv = document.getElementById('message');
+            const responseDiv = document.getElementById('response');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+            messageDiv.innerHTML = '';
+            responseDiv.innerHTML = '';
+            
+            try {
+                const formData = new FormData(e.target);
+                
+                // Преобразуем участников в массив
+                const membersText = formData.get('members');
+                const membersArray = membersText.split('\n').map(m => m.trim()).filter(m => m.length > 0);
+                
+                // Создаем email из Telegram для совместимости с бэкендом
+                const telegram = formData.get('contactTelegram');
+                const telegramUsername = telegram.replace('@', '');
+                const contactEmail = `${telegramUsername}@telegram.user`;
+                
+                // Формируем данные для отправки
+                const data = {
+                    groupName: formData.get('groupName'),
+                    contactEmail: contactEmail, // Генерируем email из Telegram
+                    contactPhone: formData.get('contactPhone'),
+                    genre: formData.get('genre'),
+                    description: formData.get('description'),
+                    members: membersArray
+                };
+                
+                // Добавляем социальные ссылки если они заполнены
+                const instagram = formData.get('instagram');
+                const youtube = formData.get('youtube');
+                if (instagram || youtube) {
+                    data.socialLinks = {};
+                    if (instagram) data.socialLinks.instagram = instagram;
+                    if (youtube) data.socialLinks.youtube = youtube;
+                }
+                
+                console.log('Отправка данных:', data);
+                
+                const response = await fetch(`${API_URL}/applications`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    messageDiv.innerHTML = '<div class="message success">✅ Заявка успешно отправлена!</div>';
+                    responseDiv.innerHTML = '<div class="response"><strong>Ответ сервера:</strong><pre>' + JSON.stringify(result.data, null, 2) + '</pre></div>';
+                    e.target.reset();
+                } else {
+                    throw new Error(result.error || 'Ошибка отправки');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                messageDiv.innerHTML = '<div class="message error">❌ ' + error.message + '</div>';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить заявку';
+            }
+        });
+    </script>
+</body>
+</html>

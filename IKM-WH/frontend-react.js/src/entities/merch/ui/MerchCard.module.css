@@ -1,0 +1,43 @@
+.merchCard {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.merchCard:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(255, 139, 117, 0.3);
+}
+
+.merchCardImage {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: center 60%;
+}
+
+.merchCardContent {
+    padding: 20px;
+}
+
+.merchCardTitle {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.merchCardPrice {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.merchCardButton {
+    width: 100%;
+}

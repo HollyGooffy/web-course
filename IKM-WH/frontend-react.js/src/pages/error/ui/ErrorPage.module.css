@@ -1,0 +1,18 @@
+.errorPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+}
+
+.container {
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+}

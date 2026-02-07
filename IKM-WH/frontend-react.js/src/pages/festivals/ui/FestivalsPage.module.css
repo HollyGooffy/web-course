@@ -1,0 +1,393 @@
+.page {
+    min-height: calc(100vh - 200px);
+    padding: 120px 0 60px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: var(--dark);
+    margin-bottom: 16px;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+.header p {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    margin-top: 30px;
+}
+
+/* Grid */
+.festivalsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    align-items: stretch;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.festivalsGrid > * {
+    max-width: 380px;
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Festival Card */
+.festivalCard {
+    background: var(--glass-bg);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.festivalCard:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.cardImage {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.cardImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.festivalCard:hover .cardImage img {
+    transform: scale(1.05);
+}
+
+.cardContent {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.cardDescription {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.cardDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.detail svg {
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.performers {
+    background: rgba(255, 107, 107, 0.05);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 107, 107, 0.1);
+}
+
+.performers strong {
+    color: var(--dark);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.performers p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.buyButton {
+    width: 100%;
+    padding: 14px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.buyButton:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+}
+
+/* Carousel */
+.carouselContainer {
+    position: relative;
+    width: 100%;
+}
+
+.carouselWrapper {
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 0 -20px;
+}
+
+.carouselTrack {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.carouselSlide {
+    min-width: 100%;
+    flex-shrink: 0;
+    padding: 0 20px;
+}
+
+.carouselButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.carouselButton:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.carouselButton:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carouselButton svg {
+    color: var(--dark);
+}
+
+.carouselButtonPrev {
+    left: -24px;
+}
+
+.carouselButtonNext {
+    right: -24px;
+}
+
+.carouselDots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.carouselDot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.carouselDot:hover {
+    background: rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.carouselDotActive {
+    background: var(--accent);
+    transform: scale(1.2);
+}
+
+/* States */
+.error {
+    text-align: center;
+    padding: 60px 20px;
+    color: #e53e3e;
+    font-size: 1.1rem;
+    background: var(--glass-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(229, 62, 62, 0.2);
+}
+
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    background: var(--glass-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .festivalsGrid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 700px;
+    }
+    
+    .festivalsGrid > * {
+        max-width: 330px;
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page {
+        padding: 100px 0 40px;
+    }
+
+    .header h1 {
+        font-size: 2.2rem;
+    }
+
+    .header p {
+        font-size: 1rem;
+    }
+
+    .festivalsGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 400px;
+    }
+    
+    .festivalsGrid > * {
+        max-width: 100%;
+        min-height: 380px;
+    }
+
+    .cardContent {
+        padding: 20px;
+    }
+
+    .cardTitle {
+        font-size: 1.3rem;
+    }
+
+    .carouselButtonPrev {
+        left: -16px;
+    }
+
+    .carouselButtonNext {
+        right: -16px;
+    }
+
+    .carouselButton {
+        width: 40px;
+        height: 40px;
+    }
+
+    .carouselButton svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .carouselSlide {
+        padding: 0 15px;
+    }
+    
+    .carouselWrapper {
+        margin: 0 -15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .festivalsGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 320px;
+    }
+    
+    .festivalsGrid > * {
+        max-width: 100%;
+        min-height: 350px;
+    }
+
+    .carouselButtonPrev {
+        left: -8px;
+    }
+
+    .carouselButtonNext {
+        right: -8px;
+    }
+
+    .carouselButton {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .carouselSlide {
+        padding: 0 10px;
+    }
+    
+    .carouselWrapper {
+        margin: 0 -10px;
+    }
+}

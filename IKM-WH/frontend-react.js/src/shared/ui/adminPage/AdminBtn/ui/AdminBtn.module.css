@@ -1,0 +1,109 @@
+.btn{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    border: none;
+    transition: var(--transition);
+    flex: 1;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn:disabled:hover {
+    opacity: 0.4;
+    transform: none !important;
+}
+
+.secondary {
+    composes: btn;
+    background: var(--light);
+    color: var(--dark);
+}
+
+.secondary:not(:disabled):hover {
+    background: var(--gray-light);
+}
+
+.accent{
+    composes: btn;
+    background: var(--accent);
+    color: var(--light);
+}
+
+.accent:not(:disabled):hover {
+    background: var(--accent-light);
+}
+
+.outline {
+    composes: btn;
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.outline:not(:disabled):hover {
+    background: var(--accent);
+    color: white;
+    border: 1px solid var(--accent);
+}
+
+.primary {
+    composes: btn;
+    padding: 0.75rem 1.5rem;
+    background: var(--accent);
+    color: white;
+}
+
+.primary:not(:disabled):hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+.black-outline {
+    composes: btn;
+    background: transparent;
+    color: var(--dark);
+    border: 1px solid black;
+}
+
+.black-outline:not(:disabled):hover {
+    opacity: 0.7;
+}
+
+.destructive {
+    composes: btn;
+    background: var(--warning);
+    color: white;
+}
+
+.destructive:not(:disabled):hover {
+    opacity: 0.7;
+}
+
+.blue {
+    composes: btn;
+    background: var(--blue);
+    color: white;
+}
+
+.blue:not(:disabled):hover {
+    opacity: 0.7;
+}
+
+.positive{
+    composes: btn;
+    background: var(--positive);
+    color: white;
+}
+
+.positive:not(:disabled):hover {
+    opacity: 0.7;
+}

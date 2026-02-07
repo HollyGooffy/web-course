@@ -1,0 +1,108 @@
+.collectibleCard {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 24px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Растягиваем на всю доступную высоту в сетке */
+}
+
+.collectibleCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.collectibleCard:hover {
+    transform: translateY(-10px); /* Такой же эффект как у карточек мерча */
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+}
+
+.collectibleCard:hover::before {
+    opacity: 1;
+}
+
+.cardImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px; /* Фиксированная высота для иконки */
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.cardContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardContent h3 {
+    margin: 0 0 12px 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.description {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    opacity: 0.9;
+    text-align: center;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.stats {
+    margin: 0 0 20px 0;
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.viewButton {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    margin-top: auto; /* Прижимаем кнопку к низу */
+}
+
+.viewButton:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .collectibleCard {
+        padding: 20px;
+        height: 100%; /* Сохраняем растягивание на мобильных */
+    }
+    
+    .cardContent h3 {
+        font-size: 18px;
+    }
+    
+    .cardImage {
+        height: 60px;
+    }
+}

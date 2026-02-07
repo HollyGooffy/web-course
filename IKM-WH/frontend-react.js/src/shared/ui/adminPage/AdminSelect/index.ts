@@ -1,0 +1,1 @@
+export {AdminSelect, type AdminSelectProps} from './ui'

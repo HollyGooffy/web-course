@@ -1,0 +1,48 @@
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.logoIcon {
+    font-size: 2rem;
+    animation: gentleBounce 4s ease-in-out infinite;
+}
+
+.logoText {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #000000;
+    letter-spacing: 1px;
+}
+
+@keyframes gentleBounce {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        margin-bottom: 2rem;
+    }
+
+    .logoText {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        gap: 0.7rem;
+    }
+
+    .logoIcon {
+        font-size: 1.6rem;
+    }
+
+    .logoText {
+        font-size: 1.5rem;
+    }
+}

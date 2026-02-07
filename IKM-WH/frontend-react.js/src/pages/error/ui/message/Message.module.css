@@ -1,0 +1,20 @@
+.title {
+    font-size: 2rem;
+    color: var(--dark);
+    margin: 2rem 0;
+    font-weight: 600;
+    animation: fadeInOut 3s ease-in-out infinite;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.2rem;
+    }
+}

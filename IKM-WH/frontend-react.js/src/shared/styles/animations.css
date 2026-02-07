@@ -1,0 +1,131 @@
+/* Мягкие анимации для загрузки страниц */
+
+/* Основная анимация появления контента */
+.fadeIn {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Анимация появления снизу с мягким переходом */
+.slideUp {
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация для карточек с мягким появлением */
+.cardFadeIn {
+    opacity: 0;
+    animation: cardFadeIn 0.7s ease-out forwards;
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация масштабирования без резких движений */
+.scaleIn {
+    opacity: 0;
+    animation: scaleIn 0.6s ease-out forwards;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Анимация появления слева */
+.slideRight {
+    opacity: 0;
+    animation: slideRight 0.7s ease-out forwards;
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Анимация для заголовков */
+.headerFadeIn {
+    opacity: 0;
+    animation: headerFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes headerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация для кнопок */
+.buttonFadeIn {
+    opacity: 0;
+    animation: buttonFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes buttonFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Анимация появления с задержкой для элементов списка */
+.fadeInStagger {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+.fadeInStagger:nth-child(1) { animation-delay: 0.1s; }
+.fadeInStagger:nth-child(2) { animation-delay: 0.15s; }
+.fadeInStagger:nth-child(3) { animation-delay: 0.2s; }
+.fadeInStagger:nth-child(4) { animation-delay: 0.25s; }
+.fadeInStagger:nth-child(5) { animation-delay: 0.3s; }
+.fadeInStagger:nth-child(6) { animation-delay: 0.35s; }
+.fadeInStagger:nth-child(7) { animation-delay: 0.4s; }
+.fadeInStagger:nth-child(8) { animation-delay: 0.45s; }

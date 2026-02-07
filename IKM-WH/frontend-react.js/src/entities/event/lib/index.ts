@@ -1,0 +1,1 @@
+export { formatEventData } from './formatEventData';

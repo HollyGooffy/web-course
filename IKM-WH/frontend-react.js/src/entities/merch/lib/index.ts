@@ -1,0 +1,1 @@
+export { transformMerchData } from './transformMerchData';

@@ -1,0 +1,1 @@
+export {type AdminHeaderProps, AdminHeader} from './ui'

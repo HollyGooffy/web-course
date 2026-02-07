@@ -1,0 +1,1 @@
+export type { Festival, FestivalFormData } from './model';

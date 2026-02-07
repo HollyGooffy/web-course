@@ -1,0 +1,52 @@
+.spinner {
+  border-radius: 50%;
+  border-style: solid;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+/* Размеры */
+.small {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+.medium {
+  width: 32px;
+  height: 32px;
+  border-width: 2px;
+}
+
+.large {
+  width: 48px;
+  height: 48px;
+  border-width: 3px;
+}
+
+/* Цвета */
+.primary {
+  border-color: #667eea;
+  border-top-color: transparent;
+}
+
+.secondary {
+  border-color: #6b7280;
+  border-top-color: transparent;
+}
+
+.white {
+  border-color: white;
+  border-top-color: transparent;
+}
+
+/* Анимация */
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
+}

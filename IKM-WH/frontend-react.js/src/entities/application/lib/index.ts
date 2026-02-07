@@ -1,0 +1,1 @@
+export { transformApplicationData } from './transformApplicationData';

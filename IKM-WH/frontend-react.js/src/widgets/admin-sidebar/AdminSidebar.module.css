@@ -1,0 +1,409 @@
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background: var(--glass-bg);
+    backdrop-filter: blur(40px);
+    color: var(--bg);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.mobile {
+    transform: translateX(-100%);
+    width: 280px;
+}
+
+.sidebar.mobileOpen {
+    transform: translateX(0);
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.mobileMenuButton {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 999;
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.mobileMenuButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    animation: overlayFadeIn 0.3s ease;
+}
+
+@keyframes overlayFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.header {
+    padding: 1.5rem 1rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--gray-light)
+}
+
+.logoIcon {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: logoPulse 4s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.logoText {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: var(--dark);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.collapseButton {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+}
+
+.collapseButton:hover {
+    transform: scale(1.05);
+}
+
+/* Убираем специальные стили для collapsed - кнопка теперь абсолютно позиционирована */
+
+.navigation {
+    flex: 1;
+    padding: 1rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    overflow-y: auto;
+}
+
+.navigation::-webkit-scrollbar {
+    width: 4px;
+}
+
+.navigation::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.navigation::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.navigation::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    color: var(--dark-light);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.navItem:hover {
+    background: var(--accent-dark);
+    opacity: 0.8;
+    color: white;
+}
+
+.navItem.active {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.navItem.active:hover {
+    background: var(--accent);
+    opacity: 1;
+    color: white;
+    transform: none;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.navIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.navLabel {
+    font-weight: 500;
+    font-size: 0.9rem;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge {
+    background: var(--warning);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.badgeCollapsed {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background: var(--warning);
+    border-radius: 50%;
+}
+
+.footer {
+    padding: 1rem 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.userDetails {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.userName {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userRole {
+    font-size: 0.75rem;
+    color: #a0aec0;
+}
+
+.logoutButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--warning);
+    color: var(--gray-light);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.logoutButton:hover {
+    background: var(--warning);
+    opacity: 0.8;
+    color: white;
+}
+
+.sidebar:not(.mobile) .logo,
+.sidebar:not(.mobile) .navLabel,
+.sidebar:not(.mobile) .userDetails,
+.sidebar:not(.mobile) .logoutButton span {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.2s ease 0.1s;
+}
+
+.sidebar:not(.mobile).collapsed .logo,
+.sidebar:not(.mobile).collapsed .navLabel,
+.sidebar:not(.mobile).collapsed .userDetails,
+.sidebar:not(.mobile).collapsed .logoutButton span {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+.sidebar:not(.mobile).collapsed .navItem {
+    justify-content: center;
+    padding: 0.75rem;
+}
+
+.sidebar:not(.mobile).collapsed .navItem.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+    border-radius: 0 2px 2px 0;
+}
+
+@media (max-width: 1440px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.mobileOpen {
+        transform: translateX(0);
+    }
+
+    .sidebar.mobile .logo,
+    .sidebar.mobile .navLabel,
+    .sidebar.mobile .userDetails,
+    .sidebar.mobile .logoutButton span {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .sidebar.mobile .navItem {
+        justify-content: flex-start !important;
+        padding: 0.75rem 1rem !important;
+    }
+
+    .navItem {
+        min-height: 48px;
+    }
+
+    .collapseButton {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar {
+        width: 240px;
+    }
+
+    .sidebar.collapsed {
+        width: 70px;
+    }
+
+    .logoText {
+        font-size: 1.1rem;
+    }
+
+    .navLabel {
+        font-size: 0.85rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .sidebar {
+        width: 300px;
+    }
+
+    .sidebar.collapsed {
+        width: 90px;
+    }
+
+    .logoText {
+        font-size: 1.4rem;
+    }
+
+    .navLabel {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,218 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modalContent {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #6b7280;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: #1f2937;
+}
+
+.modalBody {
+    padding: 24px;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+}
+
+.emptyState svg {
+    color: #9ca3af;
+    margin-bottom: 16px;
+}
+
+.emptyState h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #374151;
+}
+
+.emptyState p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.cardSetsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.cardSetItem {
+    background: #f9fafb;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
+}
+
+.cardSetItem:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.cardSetImage {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardSetImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.noImage {
+    color: #9ca3af;
+}
+
+.cardSetInfo {
+    padding: 20px;
+}
+
+.cardSetInfo h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.description {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.details {
+    margin-bottom: 20px;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.detail svg {
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+.stock {
+    font-weight: 500;
+    color: #059669;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.price svg {
+    color: #059669;
+}
+
+.buyButton {
+    width: 100%;
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.buyButton:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+    .modalContent {
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .modalHeader,
+    .modalBody {
+        padding: 16px;
+    }
+
+    .cardSetsGrid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .cardSetImage {
+        height: 140px;
+    }
+
+    .cardSetInfo {
+        padding: 16px;
+    }
+}

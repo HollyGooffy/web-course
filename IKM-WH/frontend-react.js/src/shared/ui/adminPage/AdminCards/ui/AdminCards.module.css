@@ -1,0 +1,24 @@
+.adminCard {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.padding-none { padding: 0; }
+.padding-small { padding: 1rem; }
+.padding-medium { padding: 1.5rem; }
+.padding-large { padding: 2rem; }
+
+.hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    border-color: var(--accent);
+}

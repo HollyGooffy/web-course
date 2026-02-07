@@ -1,0 +1,113 @@
+@import "@/shared/assets/fonts/index.css";
+@import './reset.css';
+
+:root {
+    --accent: #ff8b75;
+    --accent-light: #ffa894;
+    --accent-dark: #e07a65;
+    --dark: #222;
+    --blue: #667eea;
+    --dark-light: #444;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+    --warning: #e14c4c;
+    --positive: #38a169;
+    --pending-color-text:#856404;
+    --pending-color-bg: #fff3cd;
+    --approved-color-text: #0c5460;
+    --approved-color-bg: #d1edff;
+    --rejected-color-text: #721c24;
+    --rejected-color-bg: #f8d7da;
+    --glass-bg: rgba(255, 255, 255, 0.3);
+    --gray-light: #e9ecef;
+    --radius: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
+    --bg: linear-gradient(180deg, #9ecce6, #d8f6cc);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Nunito", sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+section {
+    padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 80px 0;
+    }
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+@media (max-width: 576px) {
+    .btn{
+        width: 100%;
+    }
+
+    section{
+        padding: 60px 0;
+    }
+}
+
+.btn--primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn--primary:hover {
+    background: var(--accent-light);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 139, 117, 0.3);
+}
+
+.btn--secondary {
+    background: transparent;
+    color: var(--dark);
+    border: 2px solid var(--dark);
+}
+
+.btn--secondary:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateY(-3px);
+}
