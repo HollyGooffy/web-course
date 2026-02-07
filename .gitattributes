@@ -1,0 +1,40 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# PHP files
+*.php linguist-language=PHP
+
+# JavaScript files
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# HTML files
+*.html linguist-language=HTML
+
+# CSS files
+*.css linguist-language=CSS
+
+# SQL files
+*.sql linguist-language=SQL
+
+# Markdown files
+*.md linguist-language=Markdown
+
+# Exclude vendor directories from language statistics
+vendor/** linguist-vendored
+node_modules/** linguist-vendored
+**/node_modules/** linguist-vendored
+
+# Exclude lock files from language statistics
+package-lock.json linguist-generated
+pnpm-lock.yaml linguist-generated
+composer.lock linguist-generated
+
+# Exclude minified files
+*.min.js linguist-generated
+*.min.css linguist-generated
+
+# Documentation
+*.md linguist-documentation
