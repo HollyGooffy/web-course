@@ -1,0 +1,25 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+composer.lock
+
+# Config (если содержит чувствительные данные)
+# config.php
+
+# Logs
+*.log
+error_log
+
+# Temporary files
+*.tmp
+*.temp

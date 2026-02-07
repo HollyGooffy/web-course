@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор систем счисления</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор систем счисления</h1>
+        
+        <div class="controls">
+            <div class="select-group">
+                <label for="fromBase">Из системы:</label>
+                <select id="fromBase">
+                    <option value="2">2 (двоичная)</option>
+                    <option value="3">3 (троичная)</option>
+                    <option value="4">4 (четверичная)</option>
+                    <option value="5">5 (пятеричная)</option>
+                    <option value="6">6 (шестеричная)</option>
+                    <option value="7">7 (семеричная)</option>
+                    <option value="8">8 (восьмеричная)</option>
+                    <option value="9">9 (девятеричная)</option>
+                    <option value="10" selected>10 (десятичная)</option>
+                    <option value="11">11 (одиннадцатеричная)</option>
+                    <option value="12">12 (двенадцатеричная)</option>
+                    <option value="13">13 (тринадцатеричная)</option>
+                    <option value="14">14 (четырнадцатеричная)</option>
+                    <option value="15">15 (пятнадцатеричная)</option>
+                    <option value="16">16 (шестнадцатеричная)</option>
+                </select>
+            </div>
+            
+            <div class="select-group">
+                <label for="toBase">В систему:</label>
+                <select id="toBase">
+                    <option value="2">2 (двоичная)</option>
+                    <option value="3">3 (троичная)</option>
+                    <option value="4">4 (четверичная)</option>
+                    <option value="5">5 (пятеричная)</option>
+                    <option value="6">6 (шестеричная)</option>
+                    <option value="7">7 (семеричная)</option>
+                    <option value="8">8 (восьмеричная)</option>
+                    <option value="9">9 (девятеричная)</option>
+                    <option value="10">10 (десятичная)</option>
+                    <option value="11">11 (одиннадцатеричная)</option>
+                    <option value="12">12 (двенадцатеричная)</option>
+                    <option value="13">13 (тринадцатеричная)</option>
+                    <option value="14">14 (четырнадцатеричная)</option>
+                    <option value="15">15 (пятнадцатеричная)</option>
+                    <option value="16" selected>16 (шестнадцатеричная)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="display">
+            <input type="text" id="inputDisplay" readonly placeholder="0">
+        </div>
+        
+        <div class="buttons">
+            <button class="digit-btn" data-value="0">0</button>
+            <button class="digit-btn" data-value="1">1</button>
+            <button class="digit-btn" data-value="2">2</button>
+            <button class="digit-btn" data-value="3">3</button>
+            <button class="digit-btn" data-value="4">4</button>
+            <button class="digit-btn" data-value="5">5</button>
+            <button class="digit-btn" data-value="6">6</button>
+            <button class="digit-btn" data-value="7">7</button>
+            <button class="digit-btn" data-value="8">8</button>
+            <button class="digit-btn" data-value="9">9</button>
+            <button class="digit-btn" data-value="A">A</button>
+            <button class="digit-btn" data-value="B">B</button>
+            <button class="digit-btn" data-value="C">C</button>
+            <button class="digit-btn" data-value="D">D</button>
+            <button class="digit-btn" data-value="E">E</button>
+            <button class="digit-btn" data-value="F">F</button>
+        </div>
+        
+        <div class="action-buttons">
+            <button id="convertBtn" class="action-btn convert">Перевести</button>
+            <button id="clearBtn" class="action-btn clear">Сброс</button>
+        </div>
+        
+        <div class="result">
+            <label>Результат:</label>
+            <input type="text" id="resultDisplay" readonly placeholder="Результат появится здесь">
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
