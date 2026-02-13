@@ -1,34 +1,29 @@
-# 📚 Books Parser
+# 📚 Парсер книг (Books Parser)
 
-A modern web scraper for books.toscrape.com with a beautiful, responsive UI.
+Современный веб-скрапер для books.toscrape.com с красивым адаптивным интерфейсом.
 
-## ✨ Features
+## ✨ Возможности
 
-- 📖 Parse books from books.toscrape.com
-- 📂 Dynamic category loading from the website
-- 🎨 Modern blue gradient design with smooth animations
-- ⭐ Display book ratings with star visualization
-- 🖼️ Book cover images with hover effects
-- 📱 Fully responsive design
-- 💾 SQLite database storage
-- 🔄 Smart pagination with automatic page detection
-- ⚡ Fast and efficient parsing
+- 📖 Парсинг книг с books.toscrape.com
+- 📂 Динамическая загрузка категорий с сайта
+- 💾 Хранение данных в SQLite
 
-## 🚀 Tech Stack
+
+## 🚀 Технологии
 
 ### Backend
 - Node.js + Express
-- Axios + Cheerio (web scraping)
+- Axios + Cheerio (веб-скрапинг)
 - SQLite (sql.js)
 
 ### Frontend
 - React + Vite
-- Modern CSS with gradients and animations
-- Responsive grid layout
+- Современный CSS с градиентами и анимациями
+- Адаптивная сеточная разметка
 
-## 📦 Installation
+## 📦 Установка
 
-1. Install dependencies:
+1. Установите зависимости:
 ```bash
 # Backend
 cd backend
@@ -39,75 +34,51 @@ cd frontend
 npm install
 ```
 
-2. Start the application:
+2. Запустите приложение:
 ```bash
-# Backend (from backend folder)
+# Backend (из папки backend)
 npm start
 
-# Frontend (from frontend folder)
+# Frontend (из папки frontend)
 npm run dev
 ```
 
-## 🎯 Usage
+## 🎯 Использование
 
-1. Categories are automatically loaded from books.toscrape.com
-2. Select a book category (or choose "All Books")
-3. Set the number of pages to parse (recommended: 1-5)
-4. Click "Start Parsing"
-5. Browse the parsed books in the main area
+1. Категории автоматически загружаются с books.toscrape.com
+2. Выберите категорию книг (или "All Books" для всех)
+3. Укажите количество страниц для парсинга (рекомендуется: 1-5)
+4. Нажмите "Start Parsing"
+5. Просматривайте спарсенные книги в основной области
 
-## 🌐 Data Source
+## 🌐 Источник данных
 
-This parser uses [books.toscrape.com](https://books.toscrape.com/) - a sandbox website specifically designed for web scraping practice.
+Парсер использует [books.toscrape.com](https://books.toscrape.com/) - тестовый сайт, специально созданный для практики веб-скрапинга.
 
-## 📸 Features Showcase
-
-- **Modern UI**: Blue gradient backgrounds, smooth transitions, and hover effects
-- **Book Cards**: Display title, price, rating, availability, and cover image
-- **Dynamic Categories**: Categories are parsed directly from the website
-- **Smart Pagination**: Automatically stops when reaching the last page
-- **Responsive**: Works perfectly on desktop, tablet, and mobile
 
 ## 🛠️ API Endpoints
 
-- `GET /api/categories` - Get all available book categories
-- `POST /api/parse` - Start parsing books
-- `GET /api/books` - Get all books (paginated)
-- `GET /api/books/search` - Search books with filters
-- `GET /api/books/statistics` - Get collection statistics
-- `DELETE /api/books/:id` - Delete a specific book
-- `DELETE /api/books` - Clear all books
+- `GET /api/categories` - Получить все доступные категории книг
+- `POST /api/parse` - Начать парсинг книг
+- `GET /api/books` - Получить все книги (с пагинацией)
+- `GET /api/books/search` - Поиск книг с фильтрами
+- `GET /api/books/statistics` - Получить статистику коллекции
+- `DELETE /api/books/:id` - Удалить конкретную книгу
+- `DELETE /api/books` - Очистить все книги
 
-## 📝 Notes
+## 📝 Примечания
 
-- The parser respects rate limits with 500ms delays between requests
-- Book data includes: title, price, rating, availability, image, and URL
-- All prices are in GBP (£)
-- Ratings are displayed as 1-5 stars
-- Categories are dynamically loaded from the website
-- **Smart pagination**: Parser automatically stops when reaching the last page
-- **Error handling**: Gracefully handles 404 errors for non-existent pages
-- Maximum pages per request: 50 (recommended: 1-5 for faster results)
+- Парсер соблюдает ограничения с задержкой 500мс между запросами
+- Данные книги включают: название, цену, рейтинг, наличие, изображение и URL
+- Все цены указаны в фунтах стерлингов (£)
+- Рейтинги отображаются от 1 до 5 звезд
+- Категории динамически загружаются с сайта
+- **Умная пагинация**: Парсер автоматически останавливается при достижении последней страницы
+- **Обработка ошибок**: Корректно обрабатывает 404 ошибки для несуществующих страниц
+- Максимум страниц за запрос: 50 (рекомендуется: 1-5 для быстрых результатов)
 
-## 🎨 Design Highlights
 
-- Blue gradient theme (#1e3a8a → #3b82f6 → #60a5fa)
-- Modern card-based layout with elevated shadows
-- Smooth animations and micro-interactions
-- Clean typography with Inter font family
-- Rounded corners (16-20px) for modern look
-- Gradient buttons and badges
-- Hover effects with scale and shadow transitions
-
-## 📚 Quick Start
-
-See [QUICK-START.md](QUICK-START.md) for a quick start guide.
-
-## 🔧 Troubleshooting
-
-See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues and solutions.
-
-## 📁 Project Structure
+## 📁 Структура проекта
 
 ```
 books-parser/
@@ -143,5 +114,3 @@ books-parser/
 │   └── vite.config.js
 └── README.md
 ```
-
-Enjoy exploring books! 📚✨
